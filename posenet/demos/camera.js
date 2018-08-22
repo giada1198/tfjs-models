@@ -17,7 +17,7 @@
 import * as posenet from '@tensorflow-models/posenet';
 import dat from 'dat.gui';
 import Stats from 'stats.js';
-import {drawKeypoints, drawSkeleton, drawBoundingBox} from './demo_util';
+import {drawKeypoints, drawSkeleton} from './demo_util';
 
 const videoWidth = 600;
 const videoHeight = 500;
@@ -39,6 +39,7 @@ function isMobile() {
  * Loads a the camera to be used in the demo
  *
  */
+var bridge = {};
 async function setupCamera() {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     throw new Error(
@@ -95,7 +96,6 @@ const guiState = {
     showVideo: true,
     showSkeleton: true,
     showPoints: true,
-    showBoundingBox: false,
   },
   net: null,
 };
@@ -161,7 +161,6 @@ function setupGui(cameras, net) {
   output.add(guiState.output, 'showVideo');
   output.add(guiState.output, 'showSkeleton');
   output.add(guiState.output, 'showPoints');
-  output.add(guiState.output, 'showBoundingBox');
   output.open();
 
 
@@ -265,12 +264,13 @@ function detectPoseInRealTime(video, net) {
       if (score >= minPoseConfidence) {
         if (guiState.output.showPoints) {
           drawKeypoints(keypoints, minPartConfidence, ctx);
+          // console.log(keypoints);
+          // var msg = "";
+
+          exampleSocket.send("send keypoints");// keypoints;
         }
         if (guiState.output.showSkeleton) {
           drawSkeleton(keypoints, minPartConfidence, ctx);
-        }
-        if (guiState.output.showBoundingBox) {
-          drawBoundingBox(keypoints, ctx);
         }
       }
     });
@@ -311,6 +311,10 @@ export async function bindPage() {
   setupFPS();
   detectPoseInRealTime(video, net);
 }
+var exampleSocket = new WebSocket("ws://localhost:8025/john");
+exampleSocket.onopen = function(){
+    console.log("opened");
+};
 
 navigator.getUserMedia = navigator.getUserMedia ||
     navigator.webkitGetUserMedia || navigator.mozGetUserMedia;

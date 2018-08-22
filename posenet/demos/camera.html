@@ -25,6 +25,7 @@
     }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="osc-browser.min.js"></script>
 </head>
 
 <body>
@@ -54,6 +55,34 @@
         </div>
     </div>
     <script src="camera.js"></script>
+
+    <script>
+       
+
+      
+        // var oscPort = new osc.WebSocketPort({
+        //     url: "ws://localhost:8025/john", // URL to your Web Socket server.
+        //     metadata: true
+        // });
+        // oscPort.open();
+        // oscPort.on("message", function (oscMsg) {
+        //     console.log("An OSC message just arrived!", oscMsg);
+        // });
+        
+        // // For most Ports, send() should only be called after the "ready" event fires.
+        // oscPort.on("ready", function () {
+        //     oscPort.send({
+        //         address: "/carrier/frequency",
+        //         args: [
+        //             {
+        //                 type: "f",
+        //                 value: 440
+        //             }
+        //         ]
+        //     });
+        // });
+    </script>
+    
 </body>
 
 </html>

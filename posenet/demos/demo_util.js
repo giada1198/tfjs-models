@@ -18,7 +18,6 @@ import * as tf from '@tensorflow/tfjs';
 import * as posenet from '@tensorflow-models/posenet';
 
 const color = 'aqua';
-const boundingBoxColor = 'red';
 const lineWidth = 2;
 
 function toTuple({y, x}) {
@@ -84,7 +83,6 @@ export function drawBoundingBox(keypoints, ctx) {
   ctx.rect(boundingBox.minX, boundingBox.minY,
     boundingBox.maxX - boundingBox.minX, boundingBox.maxY - boundingBox.minY);
 
-  ctx.strokeStyle = boundingBoxColor;
   ctx.stroke();
 }
 
